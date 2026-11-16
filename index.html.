@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#070B16">
+  <meta name="description" content="Plataforma de ventas inteligentes con inteligencia artificial">
+  <title>Ventas Inteligentes | Plataforma SaaS</title>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="topbar">
+    <a href="#" class="brand">
+      <span class="brand-icon">V</span>
+      <span>VENTAS<span class="brand-accent">INTELIGENTES</span></span>
+    </a>
+
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#acceso">Acceso</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section id="inicio" class="hero">
+      <div class="hero-content">
+        <span class="eyebrow">PLATAFORMA COMERCIAL INTELIGENTE</span>
+
+        <h1>
+          Convierte oportunidades
+          en <span>ventas reales.</span>
+        </h1>
+
+        <p>
+          Administra productos, encuentra compradores,
+          automatiza conversaciones y procesa ventas
+          desde una sola plataforma.
+        </p>
+
+        <a href="#acceso" class="primary-button">
+          Comenzar ahora
+        </a>
+      </div>
+    </section>
+
+    <section id="acceso" class="access-section">
+      <div class="access-card">
+        <span class="eyebrow">BIENVENIDO</span>
+
+        <h2>Accede a tu plataforma</h2>
+
+        <p>
+          Ingresa para administrar tu empresa y tus ventas.
+        </p>
+
+        <form id="loginForm">
+          <label for="email">Correo electrónico</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="tu@empresa.com"
+            required
+          >
+
+          <label for="password">Contraseña</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Tu contraseña"
+            required
+          >
+
+          <button type="submit" class="primary-button">
+            Iniciar sesión
+          </button>
+        </form>
+
+        <p id="authMessage" class="message" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="dashboard" class="dashboard hidden">
+      <h2>Panel de administración</h2>
+      <p>Bienvenido a tu espacio de trabajo.</p>
+
+      <div id="userInfo"></div>
+
+      <button id="logoutButton" class="secondary-button">
+        Cerrar sesión
+      </button>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Ventas Inteligentes. Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
