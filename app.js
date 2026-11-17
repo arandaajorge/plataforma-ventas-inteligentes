@@ -282,10 +282,74 @@ if (productoEditandoId) {
     .single();
 }
 
-const { error } = resultado;
 
+const { data: productoGuardado, error } = resultado;
 
-    if (error) throw error;
+if (error) throw error;
+
+// Subir fotografías seleccionadas
+if (imagenesSeleccionadas.length > 0) {
+  const productoId = productoGuardado.id;
+
+  // Consultar las fotografías existentes
+  const { data: productoActual, error: consultaError } =
+    await supabaseClient
+      .from("products")
+      .select("image_urls")
+      .eq("id", productoId)
+      .eq("company_id", empresaActualId)
+      .single();
+
+  if (consultaError) throw consultaError;
+
+  const imagenesExistentes =
+    productoActual.image_urls || [];
+
+  if (
+    imagenesExistentes.length +
+    imagenesSeleccionadas.length > MAX_PRODUCT_IMAGES
+  ) {
+    throw new Error(
+      "El producto puede tener máximo 5 fotografías en total."
+    );
+  }
+
+  mensajeProducto("Subiendo fotografías...");
+
+  const nuevasRutas =
+    await subirFotografiasProducto(productoId);
+
+  const todasLasImagenes = [
+    ...imagenesExistentes,
+    ...nuevasRutas
+  ];
+
+  const { data: productoActualizado, error: imagenError } =
+    await supabaseClient
+      .from("products")
+      .update({
+        image_urls: todasLasImagenes
+      })
+      .eq("id", productoId)
+      .eq("company_id", empresaActualId)
+      .select("id")
+      .single();
+
+  if (imagenError) {
+    // Intentar retirar archivos que no quedaron vinculados
+    const { error: limpiezaError } =
+      await supabaseClient.storage
+        .from("product-images")
+        .remove(nuevasRutas);
+
+    if (limpiezaError) {
+      console.error("Error al limpiar imágenes:", limpiezaError);
+    }
+
+    throw imagenError;
+  }
+}
+
 
     
 const estabaEditando = Boolean(productoEditandoId);
