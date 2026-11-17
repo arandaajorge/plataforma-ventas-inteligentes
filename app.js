@@ -378,6 +378,7 @@ productImagesPreview.replaceChildren();
 
 // Restablecer edición
 productoEditandoId = null;
+    cantidadImagenesExistentes = 0;
 cancelEditButton.classList.add("hidden");
 
 productForm.querySelector('button[type="submit"]')
