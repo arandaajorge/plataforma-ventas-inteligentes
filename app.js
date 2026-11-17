@@ -734,3 +734,66 @@ async function subirFotografiasProducto(productoId) {
     throw error;
   }
 }
+
+/* ======================================
+   INF3X - ELIMINAR FOTOGRAFÍA
+====================================== */
+
+async function eliminarFotografiaProducto(productoId, ruta) {
+  if (!empresaActualId || !puedeAdministrarProductos) {
+    throw new Error("No tienes permisos para eliminar fotografías.");
+  }
+
+  // Comprobar que el producto pertenece a la empresa
+  const { data: producto, error: consultaError } =
+    await supabaseClient
+      .from("products")
+      .select("image_urls")
+      .eq("id", productoId)
+      .eq("company_id", empresaActualId)
+      .single();
+
+  if (consultaError) throw consultaError;
+
+  const imagenes = producto.image_urls || [];
+
+  if (!imagenes.includes(ruta)) {
+    throw new Error("La fotografía no pertenece al producto.");
+  }
+
+  // Comprobar que la ruta pertenece a esta empresa y producto
+  if (!ruta.startsWith(empresaActualId + "/" + productoId + "/")) {
+    throw new Error("Ruta de fotografía no autorizada.");
+  }
+
+  const nuevasImagenes = imagenes.filter(
+    imagen => imagen !== ruta
+  );
+
+  // Primero desvincular la fotografía del producto
+  const { error: actualizacionError } =
+    await supabaseClient
+      .from("products")
+      .update({ image_urls: nuevasImagenes })
+      .eq("id", productoId)
+      .eq("company_id", empresaActualId)
+      .select("id")
+      .single();
+
+  if (actualizacionError) throw actualizacionError;
+
+  // Después eliminar el archivo de Storage
+  const { error: storageError } =
+    await supabaseClient.storage
+      .from("product-images")
+      .remove([ruta]);
+
+  if (storageError) {
+    console.error("Error al eliminar archivo:", storageError);
+    throw new Error(
+      "La fotografía se desvinculó, pero no pudo eliminarse de Storage."
+    );
+  }
+
+  return true;
+}
