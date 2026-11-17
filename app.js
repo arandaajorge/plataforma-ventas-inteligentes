@@ -418,3 +418,27 @@ function editarProducto(producto) {
     block: "start"
   });
 }
+// ======================================
+// INF3X - CANCELAR EDICIÓN
+// ======================================
+
+const cancelEditButton =
+  document.getElementById("cancelEditButton");
+
+function cancelarEdicionProducto() {
+  productoEditandoId = null;
+
+  productForm.reset();
+
+  productForm.querySelector('button[type="submit"]')
+    .textContent = "Guardar producto";
+
+  cancelEditButton.classList.add("hidden");
+
+  mensajeProducto("");
+}
+
+cancelEditButton.addEventListener(
+  "click",
+  cancelarEdicionProducto
+);
