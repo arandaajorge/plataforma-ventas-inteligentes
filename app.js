@@ -453,3 +453,88 @@ cancelEditButton.addEventListener(
   "click",
   cancelarEdicionProducto
 );
+
+// ======================================
+// INF3X - VISTA PREVIA DE FOTOGRAFÍAS
+// ======================================
+
+const productImagesInput =
+  document.getElementById("productImages");
+
+const productImagesPreview =
+  document.getElementById("productImagesPreview");
+
+const MAX_PRODUCT_IMAGES = 5;
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+
+const ALLOWED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp"
+];
+
+let imagenesSeleccionadas = [];
+
+productImagesInput.addEventListener("change", function() {
+  const archivos = Array.from(productImagesInput.files);
+
+  imagenesSeleccionadas = [];
+  productImagesPreview.replaceChildren();
+
+  if (archivos.length > MAX_PRODUCT_IMAGES) {
+    mensajeProducto(
+      "Puedes seleccionar máximo 5 fotografías.",
+      true
+    );
+    productImagesInput.value = "";
+    return;
+  }
+
+  for (const archivo of archivos) {
+    if (!ALLOWED_IMAGE_TYPES.includes(archivo.type)) {
+      mensajeProducto(
+        "Formato no permitido: " + archivo.name,
+        true
+      );
+      productImagesInput.value = "";
+      return;
+    }
+
+    if (archivo.size > MAX_IMAGE_SIZE) {
+      mensajeProducto(
+        "La fotografía supera los 5 MB: " + archivo.name,
+        true
+      );
+      productImagesInput.value = "";
+      return;
+    }
+  }
+
+  imagenesSeleccionadas = archivos;
+
+  archivos.forEach(function(archivo) {
+    const imagen = document.createElement("img");
+    const urlTemporal = URL.createObjectURL(archivo);
+
+    imagen.src = urlTemporal;
+    imagen.alt = archivo.name;
+
+    imagen.addEventListener("load", function() {
+      URL.revokeObjectURL(urlTemporal);
+    }, { once: true });
+
+    imagen.addEventListener("error", function() {
+      URL.revokeObjectURL(urlTemporal);
+    }, { once: true });
+
+    productImagesPreview.appendChild(imagen);
+  });
+
+  if (archivos.length > 0) {
+    mensajeProducto(
+      archivos.length + " fotografía(s) seleccionada(s)."
+    );
+  } else {
+    mensajeProducto("");
+  }
+});
