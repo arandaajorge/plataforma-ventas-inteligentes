@@ -528,6 +528,10 @@ function cancelarEdicionProducto() {
 
   productForm.reset();
 
+imagenesSeleccionadas = [];
+productImagesInput.value = "";
+productImagesPreview.replaceChildren();
+
   productForm.querySelector('button[type="submit"]')
     .textContent = "Guardar producto";
 
