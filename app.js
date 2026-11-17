@@ -538,3 +538,79 @@ productImagesInput.addEventListener("change", function() {
     mensajeProducto("");
   }
 });
+
+// ======================================
+// INF3X - SUBIR FOTOGRAFÍAS A SUPABASE
+// ======================================
+
+async function subirFotografiasProducto(productoId) {
+  if (!empresaActualId || !puedeAdministrarProductos) {
+    throw new Error("No tienes permisos para subir fotografías.");
+  }
+
+  if (imagenesSeleccionadas.length === 0) {
+    return [];
+  }
+
+  if (imagenesSeleccionadas.length > MAX_PRODUCT_IMAGES) {
+    throw new Error("Máximo 5 fotografías por selección.");
+  }
+
+  const rutasSubidas = [];
+
+  try {
+    for (const archivo of imagenesSeleccionadas) {
+      if (
+        !ALLOWED_IMAGE_TYPES.includes(archivo.type) ||
+        archivo.size > MAX_IMAGE_SIZE
+      ) {
+        throw new Error("Fotografía no válida: " + archivo.name);
+      }
+
+      const extension = {
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "image/webp": "webp"
+      }[archivo.type];
+
+      const nombreArchivo =
+        crypto.randomUUID() + "." + extension;
+
+      const ruta =
+        empresaActualId + "/" +
+        productoId + "/" +
+        nombreArchivo;
+
+      const { error } = await supabaseClient.storage
+        .from("product-images")
+        .upload(ruta, archivo, {
+          contentType: archivo.type,
+          upsert: false
+        });
+
+      if (error) throw error;
+
+      rutasSubidas.push(ruta);
+    }
+
+    return rutasSubidas;
+
+  } catch (error) {
+    // Limpiar archivos de esta subida incompleta
+    if (rutasSubidas.length > 0) {
+      const { error: cleanupError } =
+        await supabaseClient.storage
+          .from("product-images")
+          .remove(rutasSubidas);
+
+      if (cleanupError) {
+        console.error(
+          "No se pudieron limpiar las fotografías:",
+          cleanupError
+        );
+      }
+    }
+
+    throw error;
+  }
+}
