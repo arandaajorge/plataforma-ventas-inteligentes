@@ -276,8 +276,20 @@ const { error } = resultado;
 
     if (error) throw error;
 
-    productForm.reset();
-    mensajeProducto("Producto registrado correctamente.");
+    
+const estabaEditando = Boolean(productoEditandoId);
+
+productForm.reset();
+productoEditandoId = null;
+
+productForm.querySelector('button[type="submit"]')
+  .textContent = "Guardar producto";
+
+mensajeProducto(
+  estabaEditando
+    ? "Producto actualizado correctamente."
+    : "Producto registrado correctamente."
+);
 
     await cargarProductos();
 
