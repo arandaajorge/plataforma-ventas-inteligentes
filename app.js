@@ -354,9 +354,18 @@ if (imagenesSeleccionadas.length > 0) {
     
 const estabaEditando = Boolean(productoEditandoId);
 
+
 productForm.reset();
+
+// Limpiar fotografías seleccionadas
+imagenesSeleccionadas = [];
+productImagesInput.value = "";
+productImagesPreview.replaceChildren();
+
+// Restablecer edición
 productoEditandoId = null;
 cancelEditButton.classList.add("hidden");
+
 productForm.querySelector('button[type="submit"]')
   .textContent = "Guardar producto";
 
