@@ -443,19 +443,61 @@ galeria.className = "product-gallery";
 
 const imagenes = producto.image_urls || [];
 
+
 imagenes.forEach(function(ruta) {
   const { data } = supabaseClient.storage
     .from("product-images")
     .getPublicUrl(ruta);
 
-  const imagen = document.createElement("img");
+  // Contenedor individual de fotografía
+  const contenedor = document.createElement("div");
+  contenedor.className = "product-image-item";
 
+  const imagen = document.createElement("img");
   imagen.src = data.publicUrl;
   imagen.alt = "Fotografía de " + producto.name;
   imagen.loading = "lazy";
 
-  galeria.appendChild(imagen);
+  // Botón para eliminar fotografía
+  const botonEliminar = document.createElement("button");
+  botonEliminar.type = "button";
+  botonEliminar.className = "delete-product-image";
+  botonEliminar.textContent = "×";
+  botonEliminar.title = "Eliminar fotografía";
+  botonEliminar.setAttribute(
+    "aria-label",
+    "Eliminar fotografía de " + producto.name
+  );
+
+  botonEliminar.addEventListener("click", async function() {
+    const confirmar = confirm(
+      "¿Deseas eliminar esta fotografía definitivamente?"
+    );
+
+    if (!confirmar) return;
+
+    botonEliminar.disabled = true;
+
+    try {
+      await eliminarFotografiaProducto(producto.id, ruta);
+
+      mensajeProducto("Fotografía eliminada correctamente.");
+      await cargarProductos();
+
+    } catch (error) {
+      console.error("Error al eliminar fotografía:", error);
+      mensajeProducto(error.message, true);
+      botonEliminar.disabled = false;
+      await cargarProductos();
+    }
+  });
+
+  contenedor.appendChild(imagen);
+  contenedor.appendChild(botonEliminar);
+
+  galeria.appendChild(contenedor);
 });
+
 
 if (imagenes.length > 0) {
   tarjeta.appendChild(galeria);
