@@ -389,7 +389,7 @@ function editarProducto(producto) {
   if (!puedeAdministrarProductos || !empresaActualId) return;
 
   productoEditandoId = producto.id;
-
+cancelEditButton.classList.remove("hidden");
   document.getElementById("productName").value =
     producto.name || "";
 
