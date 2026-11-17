@@ -459,3 +459,25 @@ footer {
   border-radius: 10px;
   border: 1px solid #26364A;
 }
+
+/* ======================================
+   INF3X - GALERÍA DE PRODUCTOS
+====================================== */
+
+.product-gallery {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 8px 0 14px;
+  scrollbar-width: thin;
+}
+
+.product-gallery img {
+  width: 115px;
+  height: 115px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid #26364A;
+  background: #121F32;
+}
