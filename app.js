@@ -344,3 +344,43 @@ async function cargarProductos() {
     productsList.appendChild(tarjeta);
   });
 }
+
+// ======================================
+// INF3X - EDICIÓN DE PRODUCTOS
+// ======================================
+
+let productoEditandoId = null;
+
+function editarProducto(producto) {
+  if (!puedeAdministrarProductos || !empresaActualId) return;
+
+  productoEditandoId = producto.id;
+
+  document.getElementById("productName").value =
+    producto.name || "";
+
+  document.getElementById("productDescription").value =
+    producto.description || "";
+
+  document.getElementById("productSku").value =
+    producto.sku || "";
+
+  document.getElementById("productPrice").value =
+    producto.price;
+
+  document.getElementById("productStock").value =
+    producto.stock;
+
+  document.getElementById("productStatus").value =
+    producto.status;
+
+  productForm.querySelector('button[type="submit"]')
+    .textContent = "Actualizar producto";
+
+  mensajeProducto("Editando producto: " + producto.name);
+
+  productForm.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
