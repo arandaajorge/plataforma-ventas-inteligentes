@@ -407,7 +407,9 @@ async function cargarProductos() {
 
   const { data, error } = await supabaseClient
     .from("products")
-    .select("id, name, description, sku, price, stock, status")
+    
+.select("id, name, description, sku, price, stock, status, image_urls")
+
     .eq("company_id", empresaActualId)
     .order("created_at", { ascending: false });
 
