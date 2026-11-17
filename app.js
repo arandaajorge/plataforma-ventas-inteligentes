@@ -13,16 +13,27 @@ const logoutButton = document.getElementById("logoutButton");
 
 // Mostrar u ocultar el panel
 
+
 async function mostrarPanel(user) {
   if (!user) {
     dashboard.classList.add("hidden");
     accessSection.classList.remove("hidden");
     userInfo.textContent = "";
+
     empresaActualId = null;
-puedeAdministrarProductos = false;
-productsPanel.classList.add("hidden");
+    puedeAdministrarProductos = false;
+
+    productsPanel.classList.add("hidden");
+
+    // Limpiar cualquier edición pendiente
+    cancelarEdicionProducto();
+
+    // Limpiar información de productos anteriores
+    productsList.replaceChildren();
+
     return;
   }
+
 
   accessSection.classList.add("hidden");
   dashboard.classList.remove("hidden");
