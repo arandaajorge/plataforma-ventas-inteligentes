@@ -275,3 +275,145 @@ footer {
     margin: 25px 15px;
   }
 }
+
+/* =========================================
+   INF3X - ADMINISTRACIÓN DE PRODUCTOS
+========================================= */
+
+.products-panel {
+  margin-top: 35px;
+  padding-top: 30px;
+  border-top: 1px solid var(--border);
+}
+
+.products-panel h3 {
+  font-size: 22px;
+  margin: 20px 0 12px;
+  color: var(--text);
+}
+
+.products-panel > p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+#productForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  background: var(--panel-light);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+#productForm label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+#productForm input,
+#productForm textarea,
+#productForm select {
+  width: 100%;
+  padding: 14px;
+  background: #080F1D;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+#productForm textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+#productForm input:focus,
+#productForm textarea:focus,
+#productForm select:focus {
+  border-color: var(--green);
+}
+
+#productForm button {
+  margin-top: 15px;
+  width: 100%;
+}
+
+#productForm button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+#productMessage {
+  margin: 18px 0;
+  line-height: 1.6;
+}
+
+#productsList {
+  display: grid;
+  gap: 15px;
+  margin: 20px 0 30px;
+}
+
+.product-card {
+  background: var(--panel-light);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.product-card h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.product-card p {
+  color: var(--muted);
+  margin-bottom: 8px;
+  overflow-wrap: anywhere;
+}
+
+.product-price {
+  color: var(--green);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.product-actions button {
+  padding: 10px 15px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #1B2A42;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.product-actions button:hover {
+  border-color: var(--green);
+}
+
+@media (max-width: 600px) {
+  .products-panel {
+    margin-top: 25px;
+  }
+
+  #productForm {
+    padding: 18px 14px;
+  }
+
+  .product-card {
+    padding: 16px;
+  }
+}
