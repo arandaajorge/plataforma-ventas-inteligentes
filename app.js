@@ -637,6 +637,8 @@ const ALLOWED_IMAGE_TYPES = [
 
 let imagenesSeleccionadas = [];
 
+let cantidadImagenesExistentes = 0;
+
 productImagesInput.addEventListener("change", function() {
   const archivos = Array.from(productImagesInput.files);
 
