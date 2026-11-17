@@ -12,16 +12,53 @@ const userInfo = document.getElementById("userInfo");
 const logoutButton = document.getElementById("logoutButton");
 
 // Mostrar u ocultar el panel
-function mostrarPanel(user) {
-  if (user) {
-    accessSection.classList.add("hidden");
-    dashboard.classList.remove("hidden");
 
-    userInfo.textContent = "Sesión iniciada: " + user.email;
-  } else {
+async function mostrarPanel(user) {
+  if (!user) {
     dashboard.classList.add("hidden");
     accessSection.classList.remove("hidden");
     userInfo.textContent = "";
+    return;
+  }
+
+  accessSection.classList.add("hidden");
+  dashboard.classList.remove("hidden");
+
+  userInfo.textContent = "Cargando empresa...";
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("company_members")
+      .select(`
+        role,
+        companies (
+          id,
+          name
+        )
+      `)
+      .eq("user_id", user.id);
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      userInfo.textContent =
+        "Sesión iniciada: " + user.email +
+        ". Todavía no tienes una empresa asignada.";
+      return;
+    }
+
+    const membership = data[0];
+
+    userInfo.textContent =
+      "Usuario: " + user.email +
+      " | Empresa: " + membership.companies.name +
+      " | Rol: " + membership.role;
+
+  } catch (error) {
+    console.error("Error al cargar empresa:", error);
+
+    userInfo.textContent =
+      "No se pudo cargar la empresa: " + error.message;
   }
 }
 
