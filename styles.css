@@ -417,3 +417,45 @@ footer {
     padding: 16px;
   }
 }
+
+/* ======================================
+   INF3X - FOTOGRAFÍAS DE PRODUCTOS
+====================================== */
+
+.product-images-section {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.image-help {
+  color: #A5B2C5;
+  font-size: 13px;
+  margin: 8px 0 12px;
+}
+
+#productImages {
+  width: 100%;
+  padding: 12px;
+  border: 1px dashed #00D6A3;
+  border-radius: 10px;
+  background: #0D1525;
+  color: #F4F7FC;
+}
+
+.product-images-preview {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(100px, 1fr)
+  );
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.product-images-preview img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #26364A;
+}
