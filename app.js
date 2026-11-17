@@ -781,12 +781,12 @@ async function subirFotografiasProducto(productoId) {
    INF3X - ELIMINAR FOTOGRAFÍA
 ====================================== */
 
+
 async function eliminarFotografiaProducto(productoId, ruta) {
   if (!empresaActualId || !puedeAdministrarProductos) {
     throw new Error("No tienes permisos para eliminar fotografías.");
   }
 
-  // Comprobar que el producto pertenece a la empresa
   const { data: producto, error: consultaError } =
     await supabaseClient
       .from("products")
@@ -803,37 +803,46 @@ async function eliminarFotografiaProducto(productoId, ruta) {
     throw new Error("La fotografía no pertenece al producto.");
   }
 
-  // Comprobar que la ruta pertenece a esta empresa y producto
-  if (!ruta.startsWith(empresaActualId + "/" + productoId + "/")) {
-    throw new Error("Ruta de fotografía no autorizada.");
+  if (!ruta.startsWith(
+    empresaActualId + "/" + productoId + "/"
+  )) {
+    throw new Error("Ruta no autorizada.");
   }
 
+  // Primero eliminar el archivo de Storage
+  const { data: eliminados, error: storageError } =
+    await supabaseClient.storage
+      .from("product-images")
+      .remove([ruta]);
+
+  if (storageError) throw storageError;
+
+  // Verificar que Storage haya reportado el archivo eliminado
+  if (
+    !Array.isArray(eliminados) ||
+    !eliminados.some(archivo => archivo.name === ruta)
+  ) {
+    throw new Error(
+      "Storage no confirmó la eliminación del archivo."
+    );
+  }
+
+  // Después actualizar la base de datos
   const nuevasImagenes = imagenes.filter(
     imagen => imagen !== ruta
   );
 
-  // Primero desvincular la fotografía del producto
   const { error: actualizacionError } =
     await supabaseClient
       .from("products")
       .update({ image_urls: nuevasImagenes })
       .eq("id", productoId)
-      .eq("company_id", empresaActualId)
-      .select("id")
-      .single();
+      .eq("company_id", empresaActualId);
 
-  if (actualizacionError) throw actualizacionError;
-
-  // Después eliminar el archivo de Storage
-  const { error: storageError } =
-    await supabaseClient.storage
-      .from("product-images")
-      .remove([ruta]);
-
-  if (storageError) {
-    console.error("Error al eliminar archivo:", storageError);
+  if (actualizacionError) {
     throw new Error(
-      "La fotografía se desvinculó, pero no pudo eliminarse de Storage."
+      "Archivo eliminado, pero no se pudo actualizar el producto: " +
+      actualizacionError.message
     );
   }
 
