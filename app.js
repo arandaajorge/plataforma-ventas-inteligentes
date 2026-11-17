@@ -281,7 +281,7 @@ const estabaEditando = Boolean(productoEditandoId);
 
 productForm.reset();
 productoEditandoId = null;
-
+cancelEditButton.classList.add("hidden");
 productForm.querySelector('button[type="submit"]')
   .textContent = "Guardar producto";
 
