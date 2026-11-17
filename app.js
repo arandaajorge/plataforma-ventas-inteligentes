@@ -645,14 +645,25 @@ productImagesInput.addEventListener("change", function() {
   imagenesSeleccionadas = [];
   productImagesPreview.replaceChildren();
 
-  if (archivos.length > MAX_PRODUCT_IMAGES) {
-    mensajeProducto(
-      "Puedes seleccionar máximo 5 fotografías.",
-      true
-    );
-    productImagesInput.value = "";
-    return;
-  }
+  
+const espaciosDisponibles =
+  MAX_PRODUCT_IMAGES - cantidadImagenesExistentes;
+
+if (archivos.length > espaciosDisponibles) {
+  mensajeProducto(
+    "Este producto tiene " +
+    cantidadImagenesExistentes +
+    " fotografía(s) guardada(s). " +
+    "Puedes agregar máximo " +
+    espaciosDisponibles +
+    " fotografía(s) más.",
+    true
+  );
+
+  productImagesInput.value = "";
+  return;
+}
+
 
   for (const archivo of archivos) {
     if (!ALLOWED_IMAGE_TYPES.includes(archivo.type)) {
