@@ -48,7 +48,7 @@ async function mostrarPanel(user) {
     }
 
     const membership = data[0];
-
+    await cargarEmpresaProductos(user);
     userInfo.textContent =
       "Usuario: " + user.email +
       " | Empresa: " + membership.companies.name +
