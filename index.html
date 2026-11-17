@@ -151,6 +151,36 @@
       <option value="active">Publicado</option>
     </select>
 
+<!-- ======================================
+     INF3X - FOTOGRAFÍAS DE PRODUCTOS
+====================================== -->
+
+<div class="product-images-section">
+
+  <label for="productImages">
+    Fotografías del producto
+  </label>
+
+  <p class="image-help">
+    Selecciona hasta 5 fotografías.
+    Formatos: JPG, PNG o WEBP.
+    Máximo 5 MB por fotografía.
+  </p>
+
+  <input
+    type="file"
+    id="productImages"
+    accept="image/jpeg,image/png,image/webp"
+    multiple
+  >
+
+  <div
+    id="productImagesPreview"
+    class="product-images-preview"
+  ></div>
+
+</div>
+
     <button type="submit" class="primary-button">
       Guardar producto
     </button>
