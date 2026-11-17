@@ -481,3 +481,45 @@ footer {
   border: 1px solid #26364A;
   background: #121F32;
 }
+
+/* INF3X - FOTOGRAFÍAS CON BOTÓN ELIMINAR */
+
+.product-image-item {
+  position: relative;
+  flex: 0 0 115px;
+  width: 115px;
+  height: 115px;
+}
+
+.product-image-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.delete-product-image {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: #dc2626;
+  color: white;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.delete-product-image:hover {
+  background: #991b1b;
+}
+
+.delete-product-image:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
