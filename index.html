@@ -88,12 +88,88 @@
       <h2>Panel de administración</h2>
       <p>Bienvenido a tu espacio de trabajo.</p>
 
-      <div id="userInfo"></div>
+      
+<div id="userInfo"></div>
 
-      <button id="logoutButton" class="secondary-button">
-        Cerrar sesión
-      </button>
-    </section>
+<section id="productsPanel" class="products-panel hidden">
+
+  <h3>Administración de productos</h3>
+
+  <p>
+    Registra los productos que deseas comercializar
+    mediante Inf3x.
+  </p>
+
+  <form id="productForm">
+
+    <label for="productName">Nombre del producto *</label>
+    <input
+      type="text"
+      id="productName"
+      required
+      maxlength="150"
+      placeholder="Ej. Suplemento nutricional"
+    >
+
+    <label for="productDescription">Descripción</label>
+    <textarea
+      id="productDescription"
+      rows="4"
+      placeholder="Describe las características del producto"
+    ></textarea>
+
+    <label for="productSku">Código SKU</label>
+    <input
+      type="text"
+      id="productSku"
+      placeholder="Ej. PROD-001"
+    >
+
+    <label for="productPrice">Precio en MXN *</label>
+    <input
+      type="number"
+      id="productPrice"
+      min="0"
+      step="0.01"
+      required
+      placeholder="499.00"
+    >
+
+    <label for="productStock">Existencias *</label>
+    <input
+      type="number"
+      id="productStock"
+      min="0"
+      step="1"
+      required
+      placeholder="10"
+    >
+
+    <label for="productStatus">Estado</label>
+    <select id="productStatus">
+      <option value="draft">Borrador</option>
+      <option value="active">Publicado</option>
+    </select>
+
+    <button type="submit" class="primary-button">
+      Guardar producto
+    </button>
+
+  </form>
+
+  <p id="productMessage" class="message" aria-live="polite"></p>
+
+  <h3>Mis productos</h3>
+  <div id="productsList">
+    Todavía no hay productos registrados.
+  </div>
+
+</section>
+
+<button id="logoutButton" class="secondary-button">
+  Cerrar sesión
+</button>
+
 
   </main>
 
