@@ -434,6 +434,33 @@ async function cargarProductos() {
     const tarjeta = document.createElement("article");
     tarjeta.className = "product-card";
 
+// ======================================
+// INF3X - GALERÍA DEL PRODUCTO
+// ======================================
+
+const galeria = document.createElement("div");
+galeria.className = "product-gallery";
+
+const imagenes = producto.image_urls || [];
+
+imagenes.forEach(function(ruta) {
+  const { data } = supabaseClient.storage
+    .from("product-images")
+    .getPublicUrl(ruta);
+
+  const imagen = document.createElement("img");
+
+  imagen.src = data.publicUrl;
+  imagen.alt = "Fotografía de " + producto.name;
+  imagen.loading = "lazy";
+
+  galeria.appendChild(imagen);
+});
+
+if (imagenes.length > 0) {
+  tarjeta.appendChild(galeria);
+}
+
     const titulo = document.createElement("h4");
     titulo.textContent = producto.name;
 
