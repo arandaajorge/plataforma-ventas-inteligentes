@@ -640,32 +640,35 @@ let imagenesSeleccionadas = [];
 
 let cantidadImagenesExistentes = 0;
 
+
 productImagesInput.addEventListener("change", function() {
   const archivos = Array.from(productImagesInput.files);
 
   imagenesSeleccionadas = [];
   productImagesPreview.replaceChildren();
 
-  
-const espaciosDisponibles =
-  MAX_PRODUCT_IMAGES - cantidadImagenesExistentes;
+  const espaciosDisponibles =
+    Math.max(
+      0,
+      MAX_PRODUCT_IMAGES - cantidadImagenesExistentes
+    );
 
-if (archivos.length > espaciosDisponibles) {
-  mensajeProducto(
-    "Este producto tiene " +
-    cantidadImagenesExistentes +
-    " fotografía(s) guardada(s). " +
-    "Puedes agregar máximo " +
-    espaciosDisponibles +
-    " fotografía(s) más.",
-    true
-  );
+  // Validar cantidad total antes de guardar
+  if (archivos.length > espaciosDisponibles) {
+    mensajeProducto(
+      "Límite de fotografías: tienes " +
+      cantidadImagenesExistentes +
+      " guardada(s) y solamente puedes agregar " +
+      espaciosDisponibles +
+      " más. Máximo 5 por producto.",
+      true
+    );
 
-  productImagesInput.value = "";
-  return;
-}
+    productImagesInput.value = "";
+    return;
+  }
 
-
+  // Validar formato y tamaño
   for (const archivo of archivos) {
     if (!ALLOWED_IMAGE_TYPES.includes(archivo.type)) {
       mensajeProducto(
@@ -708,12 +711,17 @@ if (archivos.length > espaciosDisponibles) {
 
   if (archivos.length > 0) {
     mensajeProducto(
-      archivos.length + " fotografía(s) seleccionada(s)."
+      archivos.length +
+      " fotografía(s) seleccionada(s). " +
+      "Total al guardar: " +
+      (cantidadImagenesExistentes + archivos.length) +
+      " de 5."
     );
   } else {
     mensajeProducto("");
   }
 });
+
 
 // ======================================
 // INF3X - SUBIR FOTOGRAFÍAS A SUPABASE
