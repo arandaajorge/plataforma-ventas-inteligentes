@@ -240,17 +240,39 @@ productForm.addEventListener("submit", async function(event) {
   mensajeProducto("Guardando producto...");
 
   try {
-    const { error } = await supabaseClient
-      .from("products")
-      .insert({
-        company_id: empresaActualId,
-        name: nombre,
-        description: descripcion || null,
-        sku: sku || null,
-        price: precio,
-        stock: stock,
-        status: estado
-      });
+    
+const datosProducto = {
+  name: nombre,
+  description: descripcion || null,
+  sku: sku || null,
+  price: precio,
+  stock: stock,
+  status: estado
+};
+
+let resultado;
+
+if (productoEditandoId) {
+  resultado = await supabaseClient
+    .from("products")
+    .update(datosProducto)
+    .eq("id", productoEditandoId)
+    .eq("company_id", empresaActualId)
+    .select("id")
+    .single();
+} else {
+  resultado = await supabaseClient
+    .from("products")
+    .insert({
+      ...datosProducto,
+      company_id: empresaActualId
+    })
+    .select("id")
+    .single();
+}
+
+const { error } = resultado;
+
 
     if (error) throw error;
 
