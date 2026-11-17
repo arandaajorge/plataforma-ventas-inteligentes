@@ -18,6 +18,9 @@ async function mostrarPanel(user) {
     dashboard.classList.add("hidden");
     accessSection.classList.remove("hidden");
     userInfo.textContent = "";
+    empresaActualId = null;
+puedeAdministrarProductos = false;
+productsPanel.classList.add("hidden");
     return;
   }
 
