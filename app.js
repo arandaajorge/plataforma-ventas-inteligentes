@@ -326,6 +326,21 @@ async function cargarProductos() {
       estado
     );
 
+    // Botón para editar producto
+    const acciones = document.createElement("div");
+    acciones.className = "product-actions";
+
+    const botonEditar = document.createElement("button");
+    botonEditar.type = "button";
+    botonEditar.textContent = "Editar producto";
+
+    botonEditar.addEventListener("click", function() {
+      editarProducto(producto);
+    });
+
+    acciones.appendChild(botonEditar);
+    tarjeta.appendChild(acciones);
+
     productsList.appendChild(tarjeta);
   });
 }
