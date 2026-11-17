@@ -442,7 +442,7 @@ const galeria = document.createElement("div");
 galeria.className = "product-gallery";
 
 const imagenes = producto.image_urls || [];
-
+cantidadImagenesExistentes = imagenes.length;
 
 imagenes.forEach(function(ruta) {
   const { data } = supabaseClient.storage
