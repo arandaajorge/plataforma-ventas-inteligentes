@@ -247,6 +247,20 @@ productForm.addEventListener("submit", async function(event) {
     return;
   }
 
+console.log(
+  "INF3X - Fotografías seleccionadas:",
+  imagenesSeleccionadas.length
+);
+
+if (productImagesInput.files.length > 0 &&
+    imagenesSeleccionadas.length === 0) {
+  mensajeProducto(
+    "Las fotografías no están preparadas para subir. Selecciónalas nuevamente.",
+    true
+  );
+  return;
+}
+
   boton.disabled = true;
   mensajeProducto("Guardando producto...");
 
